@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MY TWIN — Your Digital Self</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+body{font-family:'Plus Jakarta Sans',sans-serif;background:#07070C;color:#fff;overflow-x:hidden}
+.glass{background:linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03));border:1px solid rgba(255,255,255,0.1);backdrop-filter:blur(24px)}
+.glass-strong{background:linear-gradient(180deg,rgba(255,255,255,0.12),rgba(255,255,255,0.04));border:1px solid rgba(255,255,255,0.14);backdrop-filter:blur(32px)}
+.gradient-text{background:linear-gradient(100deg,#A5B4FF 10%,#C4B5FD 40%,#F0ABFC 75%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.blur-blob{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none}
+.btn-primary{background:linear-gradient(100deg,#6366F1,#8B5CF6,#A855F7);box-shadow:0 8px 24px rgba(99,102,241,0.35),inset 0 1px 0 rgba(255,255,255,0.3);transition:all.25s}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 12px 36px rgba(99,102,241,0.5)}
+.card-hover{transition:all.35s cubic-bezier(.16,1,.3,1)}.card-hover:hover{transform:translateY(-4px) scale(1.01);border-color:rgba(139,92,246,0.35);box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 40px rgba(139,92,246,0.15)}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}.float{animation:float 6s ease-in-out infinite}
+@keyframes orbit{from{transform:rotate(0)}to{transform:rotate(360deg)}}.orbit{animation:orbit 20s linear infinite}
+</style>
+</head>
+<body x-data="{ openModal: false, openGoal:false, tab:'home', goals: JSON.parse(localStorage.getItem('goals')||'[{\"title\":\"Complete UI Motion Course\",\"progress\":62,\"cat\":\"Design\"},{\"title\":\"Ship Twin v2 Website\",\"progress\":35,\"cat\":\"Technology\"}]'), newGoalTitle:'' }" class="antialiased">
+<div class="fixed inset-0 overflow-hidden pointer-events-none">
+<div class="blur-blob w-[700px] h-[700px] bg-[#6366f1] -top-60 -left-60 opacity-[0.18]"></div>
+<div class="blur-blob w-[800px] h-[800px] bg-[#8b5cf6] top-[20%] -right-72 opacity-[0.15]"></div>
+<div class="blur-blob w-[600px] h-[600px] bg-[#06b6d4] bottom-0 left-[30%] opacity-[0.10]"></div>
+</div>
+<nav class="fixed top-4 left-1/2 -translate-x-1/2 w-[92%] max-w-[1280px] z-50">
+<div class="glass-strong rounded-full px-2 h-[64px] flex items-center justify-between">
+<div class="flex items-center gap-8 pl-2">
+<div class="flex items-center gap-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 to-indigo-500 flex items-center justify-center font-bold">M</div><span class="font-bold text-[17px]">MY TWIN</span></div>
+<div class="hidden md:flex items-center gap-1 p-1 rounded-full bg-white/[0.04]">
+<button @click="tab='home'" :class="tab=='home'?'bg-white text-black':'text-white/60'" class="px-4 py-1.5 rounded-full text-[13.5px]">Home</button>
+<button @click="tab='twin'" :class="tab=='twin'?'bg-white text-black':'text-white/60'" class="px-4 py-1.5 rounded-full text-[13.5px]">My Twin</button>
+<button @click="tab='explore'" :class="tab=='explore'?'bg-white text-black':'text-white/60'" class="px-4 py-1.5 rounded-full text-[13.5px]">Explore</button>
+<button @click="tab='goals'" :class="tab=='goals'?'bg-white text-black':'text-white/60'" class="px-4 py-1.5 rounded-full text-[13.5px]">Goals</button>
+<button @click="tab='profile'" :class="tab=='profile'?'bg-white text-black':'text-white/60'" class="px-4 py-1.5 rounded-full text-[13.5px]">Profile</button>
+</div>
+</div>
+<div class="w-9 h-9 rounded-full bg-gradient-to-br from-violet-400 to-fuchsia-400 flex items-center justify-center text-[13px] font-bold">AS</div>
+</div>
+</nav>
+
+<section x-show="tab=='home'" class="relative z-10 pt-28 pb-20 px-6 max-w-[1280px] mx-auto">
+<div class="grid lg:grid-cols-[1.1fr_0.9fr] gap-12 items-center pt-10">
+<div>
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full glass text-[11px] tracking-[0.14em] font-semibold text-violet-200 mb-6"><span class="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse"></span> YOUR PERSONAL DIGITAL WORLD</div>
+<h1 class="text-[42px] lg:text-[72px] leading-[0.95] font-[800]">Meet Your<br><span class="gradient-text">Digital Self.</span></h1>
+<p class="mt-6 text-[19px] text-white/60 max-w-[560px]">Discover your interests. Understand your learning style. Build a digital version of you.</p>
+<div class="mt-8 flex gap-3">
+<button @click="openModal=true" class="btn-primary px-7 h-[48px] rounded-full font-semibold text-white">Create My Twin →</button>
+<button @click="tab='explore'" class="px-7 h-[48px] rounded-full font-semibold text-white bg-white/[0.06] border border-white/10">Explore Demo</button>
+</div>
+</div>
+<div class="relative h-[560px] flex items-center justify-center">
+<div class="absolute w-[520px] h-[520px] rounded-full border border-white/[0.06]"></div>
+<div class="absolute w-[420px] h-[420px] rounded-full border border-dashed border-white/[0.08] orbit"></div>
+<div class="relative w-[340px] glass-strong rounded-[32px] p-7 float">
+<div class="flex justify-between mb-6"><span class="text-[11px] text-white/40">DIGITAL TWIN • LIVE</span><span class="w-2 h-2 rounded-full bg-emerald-400"></span></div>
+<div class="w-[88px] h-[88px] rounded-[24px] mx-auto bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center text-[32px] font-[800]">AS</div>
+<div class="text-center mt-5"><div class="text-[22px] font-bold">Arosmita Twin</div><div class="mt-1 px-2.5 py-1 rounded-full bg-violet-500/20 border border-violet-400/30 text-[11px] text-violet-200 inline-flex">THE VISIONARY</div></div>
+<div class="mt-6 grid grid-cols-3 gap-2"><div class="rounded-2xl bg-white/[0.04] border border-white/10 p-3 text-center"><div class="text-[11px] text-white/40">INTERESTS</div><div class="text-[18px] font-bold">87%</div></div><div class="rounded-2xl bg-white/[0.04] border border-white/10 p-3 text-center"><div class="text-[11px] text-white/40">STYLE</div><div class="text-[18px] font-bold">Visual</div></div><div class="rounded-2xl bg-white/[0.04] border border-white/10 p-3 text-center"><div class="text-[11px] text-white/40">SCORE</div><div class="text-[18px] font-bold">9.4</div></div></div>
+</div>
+</div>
+</div>
+</section>
+
+<section x-show="tab=='explore'" class="relative z-10 pt-28 pb-20 px-6 max-w-[1280px] mx-auto">
+<h2 class="text-[32px] font-[800]">Welcome back, Arosmita</h2>
+<div class="mt-10 flex gap-4 overflow-x-auto">
+<div class="min-w-[280px] glass rounded-[20px] p-4 card-hover"><div class="h-[112px] rounded-[14px] bg-gradient-to-br from-violet-500 to-fuchsia-500 p-4">Design • New</div><div class="mt-4 font-semibold">Build a Design System</div></div>
+<div class="min-w-[280px] glass rounded-[20px] p-4 card-hover"><div class="h-[112px] rounded-[14px] bg-gradient-to-br from-indigo-500 to-blue-500 p-4">Psychology • Top</div><div class="mt-4 font-semibold">Psychology of Focus</div></div>
+<div class="min-w-[280px] glass rounded-[20px] p-4 card-hover"><div class="h-[112px] rounded-[14px] bg-gradient-to-br from-cyan-400 to-violet-500 p-4">AI • Hot</div><div class="mt-4 font-semibold">Intro to RAG & Vector DBs</div></div>
+</div>
+</section>
+
+<section x-show="tab=='goals'" class="relative z-10 pt-28 pb-20 px-6 max-w-[1280px] mx-auto">
+<div class="flex justify-between"><h2 class="text-[32px] font-[800]">Goals</h2><button @click="openGoal=true" class="btn-primary h-11 px-6 rounded-full font-semibold">+ Add New Goal</button></div>
+<div class="mt-8 grid md:grid-cols-3 gap-4">
+<template x-for="(goal,i) in goals">
+<div class="glass rounded-[20px] p-5"><div class="flex justify-between"><h4 class="font-semibold" x-text="goal.title"></h4><button @click="goals.splice(i,1); localStorage.setItem('goals', JSON.stringify(goals))">✕</button></div><div class="mt-4 h-2 bg-white/10 rounded-full"><div class="h-full bg-gradient-to-r from-violet-500 to-cyan-400 rounded-full" :style="'width:'+goal.progress+'%'"></div></div></div>
+</template>
+</div>
+</section>
+
+<section x-show="tab=='profile'" class="relative z-10 pt-28 pb-20 px-6 max-w-[1280px] mx-auto">
+<div class="glass-strong rounded-[28px] p-8 text-center max-w-[380px]"><div class="w-[84px] h-[84px] rounded-[22px] bg-gradient-to-br from-violet-500 to-fuchsia-500 mx-auto flex items-center justify-center text-[28px] font-bold">AS</div><h3 class="mt-5 text-[22px] font-bold">Arosmita Sahoo</h3><div class="mt-2 px-3 py-1 rounded-full bg-violet-500/20 inline-flex text-[12px]">THE ARCHITECT</div></div>
+</section>
+
+<div x-show="openModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4"><div @click="openModal=false" class="absolute inset-0 bg-black/60 backdrop-blur-[14px]"></div><div class="relative glass-strong rounded-[28px] p-8 max-w-[560px] w-full"><h3 class="text-[22px] font-bold">Create Your Twin</h3><button @click="openModal=false" class="w-full mt-6 btn-primary h-12 rounded-full font-semibold">Generate My Twin ✨</button></div></div>
+<div x-show="openGoal" class="fixed inset-0 z-[100] flex items-center justify-center p-4"><div @click="openGoal=false" class="absolute inset-0 bg-black/60 backdrop-blur-[14px]"></div><div class="relative glass-strong rounded-[28px] p-8 max-w-[480px] w-full"><input x-model="newGoalTitle" placeholder="Goal title" class="w-full h-11 rounded-xl bg-white/[0.06] border border-white/10 px-4"><button @click="if(newGoalTitle){goals.push({title:newGoalTitle,progress:10,cat:'Tech'}); localStorage.setItem('goals', JSON.stringify(goals)); newGoalTitle=''; openGoal=false}" class="w-full mt-4 btn-primary h-11 rounded-full">Save Goal</button></div></div>
+<script>lucide.createIcons();</script>
+</body>
+</html>
