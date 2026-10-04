@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MY SPACE AI — Your Twin</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body{background:#050507;color:#fff;font-family:Inter,system-ui,sans-serif}
+.scroll-hide::-webkit-scrollbar{display:none}.scroll-hide{scrollbar-width:none}
+.gradient-text{background:linear-gradient(90deg,#a5b4ff,#f0abfc,#c4b5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.glow{box-shadow:0 0 40px rgba(99,102,241,.25)}
+</style>
+</head>
+<body>
+<div id="navbar" class="hidden fixed top-0 w-full z-50 bg-[#050507]/80 backdrop-blur-xl border-b border-white/10">
+<div class="max-w-[1280px] mx-auto px-4 h-[64px] flex justify-between items-center">
+<div class="flex items-center gap-2.5"><div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-fuchsia-500 flex items-center justify-center font-extrabold">M</div><span class="font-extrabold">MY SPACE AI</span><span class="ml-2 text-[10px] px-2 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/20 text-emerald-200">v4 • YOUR NAME</span></div>
+<div class="flex gap-3 items-center"><div id="navProfile" class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-200 to-fuchsia-200 text-black font-bold flex items-center justify-center text-[12px]">AS</div><button onclick="logout()" class="text-[11px] text-white/40">Logout</button></div>
+</div></div>
+
+<div id="loginView" class="min-h-screen flex items-center justify-center p-4 relative">
+<div class="absolute w-[600px] h-[600px] bg-indigo-600/15 blur-[130px] rounded-full -top-40 -left-40"></div>
+<div class="absolute w-[600px] h-[600px] bg-fuchsia-600/15 blur-[130px] rounded-full -bottom-40 -right-40"></div>
+<div class="w-full max-w-[440px] bg-[#121
