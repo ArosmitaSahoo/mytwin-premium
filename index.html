@@ -1,0 +1,43 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>MY SPACE AI</title><script src="https://cdn.tailwindcss.com"></script></head>
+<body style="background:#050507;color:#fff;font-family:Inter,sans-serif">
+<div id="loginView" class="min-h-screen flex items-center justify-center p-4"><div class="w-full max-w-[420px] bg-[#12121b] border border-white/10 rounded-[28px] p-8 text-center"><div class="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 flex items-center justify-center text-xl font-bold mb-4">M</div><h1 class="text-[24px] font-bold">MY SPACE AI</h1><input id="customNameInput" placeholder="Apna naam likho" value="Arosmita Sahoo" class="w-full mt-6 bg-[#1e1e2d] border-2 border-violet-500/30 rounded-xl px-4 py-3.5 outline-none text-left"><div class="grid grid-cols-2 gap-2 mt-4"><button onclick="handleLogin(['Technology','Creativity'])" class="bg-white text-black rounded-xl py-3 font-bold">💻 IT →</button><button onclick="handleLogin(['Music','Art','Dance'])" class="bg-[#1c1c26] border border-white/10 rounded-xl py-3">🎨 Arts →</button><button onclick="handleLogin(['Business','Entrepreneurship'])" class="bg-[#1c1c26] border border-white/10 rounded-xl py-3">💼 Business →</button><button onclick="handleLogin(['Cooking','Fitness'])" class="bg-[#1c1c26] border border-white/10 rounded-xl py-3">🌸 Life →</button></div></div></div>
+
+<div id="dashView" class="hidden"><div class="max-w-[480px] mx-auto"><div class="px-4 h-[56px] flex justify-between items-center border-b border-white/10"><div class="flex gap-2 items-center"><div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-fuchsia-500 flex items-center justify-center font-bold">M</div><b>MY SPACE AI</b></div><div id="navProfile" class="w-8 h-8 rounded-full bg-[#d8d2ff] text-black font-bold flex items-center justify-center text-[12px]">AS</div></div>
+<div class="p-4"><p class="text-white/60 text-[14px]">Because you like <span id="interestLabel" class="text-white font-bold">Music,Art,Dance</span></p><div class="mt-5 bg-[#12121b] border border-white/10 rounded-[24px] p-5"><div class="flex gap-4"><div id="twinAvatar" class="w-[64px] h-[64px] rounded-[18px] bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center text-[24px] font-bold">S</div><div><h3 id="twinName" class="font-bold text-[18px]">Sumit Twin</h3><div class="mt-2 px-3 py-1 rounded-full bg-white/10 text-[10px] inline-block">THE MELODIST</div></div></div><button class="w-full mt-5 bg-white text-black rounded-full py-3 font-bold">💬 Ask My Twin</button></div>
+
+<h3 class="font-bold mt-8">Continue Exploring • Tap to Start 👇</h3><div id="rail1" class="flex gap-3 overflow-x-auto mt-3 pb-2"></div>
+<h3 class="font-bold mt-6">Because you chose <span id="rail2Title" class="text-violet-300">Music,Art,Dance</span></h3><div id="rail2" class="flex gap-3 overflow-x-auto mt-3 pb-2"></div>
+<h3 class="font-bold mt-6">Recommended For You</h3><div id="rail3" class="flex gap-3 overflow-x-auto mt-3 pb-20"></div>
+</div></div></div>
+
+<div id="videoModal" class="hidden fixed inset-0 bg-black/90 z-[200] flex items-center justify-center p-4"><div class="w-full max-w-[400px] bg-[#1e1e2d] border border-white/20 rounded-[22px] overflow-hidden"><div class="flex justify-between items-center p-4"><h3 id="videoTitle" class="font-bold">Video</h3><button onclick="closeVideo()" class="w-8 h-8 bg-white/10 rounded-full">✕</button></div><div class="aspect-video bg-black"><iframe id="videoFrame" class="w-full h-full" frameborder="0" allowfullscreen></iframe></div><div class="p-4"><p id="videoDesc" class="text-[13px] opacity-60"></p><button onclick="closeVideo();alert('🎉 +10 XP!')" class="w-full mt-4 bg-gradient-to-r from-indigo-500 to-fuchsia-500 rounded-xl py-3 font-bold">✅ Mark Complete</button></div></div></div>
+
+<script>
+const VIDEO_DB={
+"Technology":[{title:"Learn Web Design",desc:"HTML basics",tag:"Popular",yt:"pQN-pnXPaVg",color:"from-indigo-500 to-violet-500"},{title:"AI for Creators",desc:"Use AI tools",tag:"New",yt:"2e2a20QdF3E",color:"from-fuchsia-500 to-pink-500"},{title:"Build Portfolio",desc:"Show your work",tag:"Goal",yt:"5bMdjkfvONE",color:"from-blue-500 to-indigo-500"}],
+"Music":[{title:"Learn Guitar",desc:"3 chords",tag:"Music",yt:"BfOdWSiyWoc",color:"from-orange-400 to-amber-500"},{title:"Beat Making 101",desc:"First beat",tag:"Creative",yt:"7PrnJx0EB3I",color:"from-red-500 to-pink-500"},{title:"Music Theory",desc:"Rhythm basics",tag:"Theory",yt:"bFv9L1zJ0bQ",color:"from-yellow-500 to-orange-500"}],
+"Art":[{title:"Digital Painting",desc:"Procreate basics",tag:"Art",yt:"7x5D5c5J0Zc",color:"from-pink-500 to-rose-500"},{title:"Sketch Daily",desc:"15 min practice",tag:"Practice",yt:"6A5Ep5N0R3o",color:"from-fuchsia-500 to-purple-500"}],
+"Dance":[{title:"Dance Moves",desc:"Trending steps",tag:"Energy",yt:"p9p5R0i0K8M",color:"from-pink-500 to-violet-500"},{title:"Choreography",desc:"Make routine",tag:"Create",yt:"y8Yv4pnO7qc",color:"from-violet-500 to-indigo-500"}],
+"Business":[{title:"Startup 101",desc:"Idea to launch",tag:"Business",yt:"bNpx7gpSqbY",color:"from-emerald-500 to-teal-500"},{title:"Marketing Basics",desc:"Reach customers",tag:"Growth",yt:"y6t0R4a2X8o",color:"from-green-500 to-emerald-500"}],
+"Cooking":[{title:"5-min Recipes",desc:"Tasty & fast",tag:"Tasty",yt:"nP8uiM0R3aM",color:"from-orange-500 to-amber-500"},{title:"Baking Basics",desc:"Bake a cake",tag:"Sweet",yt:"2z4J0N0R3aM",color:"from-yellow-500 to-orange-500"}],
+"Fitness":[{title:"7-day Fitness",desc:"Challenge",tag:"Fit",yt:"U0BH0R3aM0M",color:"from-lime-500 to-emerald-500"}],
+"Creativity":[{title:"UI Design",desc:"Figma basics",tag:"For You",yt:"3q3FV0R3aM0",color:"from-violet-500 to-purple-500"}]
+};
+function getInitials(n){return n.trim().split(' ').slice(0,2).map(w=>w[0].toUpperCase()).join('')||'AS'}
+function handleLogin(interests){let name=document.getElementById('customNameInput').value.trim();if(name.length<2){alert('Naam likho!');return}localStorage.setItem('ms_name',name);localStorage.setItem('ms_initials',getInitials(name));localStorage.setItem('ms_interests',interests.join(','));showDashboard();}
+function playVideo(yt,title,desc){document.getElementById('videoTitle').innerText=title;document.getElementById('videoDesc').innerText=desc;document.getElementById('videoFrame').src=`https://www.youtube.com/embed/${yt}?autoplay=1`;document.getElementById('videoModal').classList.remove('hidden');}
+function closeVideo(){document.getElementById('videoModal').classList.add('hidden');document.getElementById('videoFrame').src='';}
+function showDashboard(){
+let name=localStorage.getItem('ms_name')||'Sumit';let initials=localStorage.getItem('ms_initials')||getInitials(name);let interests=localStorage.getItem('ms_interests')||'Music,Art,Dance';let list=interests.split(',').map(s=>s.trim());
+document.getElementById('loginView').classList.add('hidden');document.getElementById('dashView').classList.remove('hidden');
+document.getElementById('navProfile').innerText=initials;document.getElementById('twinAvatar').innerText=initials;document.getElementById('twinName').innerText=name+' Twin';document.getElementById('interestLabel').innerText=interests;document.getElementById('rail2Title').innerText=interests;
+function getAll(){let all=[];list.forEach(k=>{if(VIDEO_DB[k]) all=[...all,...VIDEO_DB[k]]});if(all.length<3) all=[...all,...VIDEO_DB["Technology"]];return all}
+let all=getAll();
+function mk(c){return `<button onclick="playVideo('${c.yt}','${c.title}','${c.desc}')" class="min-w-[190px] w-[190px] h-[124px] rounded-[18px] bg-gradient-to-br ${c.color} p-4 text-left relative overflow-hidden active:scale-95"><div class="absolute top-2 right-2 w-7 h-7 bg-black/30 rounded-full flex items-center justify-center text-[10px]">▶️</div><div><span class="text-[10px] bg-black/30 px-2 py-1 rounded-full">${c.tag}</span></div><div class="mt-6"><div class="font-bold text-[14px]">${c.title}</div><div class="text-[11px] text-white/80">${c.desc}</div></div></button>`}
+document.getElementById('rail1').innerHTML=all.slice(0,6).map(mk).join('');
+document.getElementById('rail2').innerHTML=all.slice(0,4).map(mk).join('');
+document.getElementById('rail3').innerHTML=all.map(mk).reverse().slice(0,4).join('');
+}
+if(localStorage.getItem('ms_name')) showDashboard();
+</script>
+</body></html>
