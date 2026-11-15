@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GOAL SPACE - Twin | Desktop</title>
+<style>
+*{box-sizing:border-box;font-family:'Segoe UI',Arial,sans-serif}
+body{margin:0;background:#FFF7ED;color:#1F2937}
+header{background:linear-gradient(135deg,#FF6B35,#FF9A5A);color:white;padding:18px 28px;display:flex;justify-content:space-between;align-items:center}
+header h1{margin:0;font-size:30px}
+header p{margin:4px 0 0;opacity:.95}
+.topbar{max-width:1280px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center;width:100%}
+.main{max-width:1280px;margin:0 auto;padding:18px;display:grid;grid-template-columns:380px 1fr;gap:18px;align-items:start}
+@media(max-width:900px){.main{grid-template-columns:1fr} header{flex-direction:column;text-align:center}}
+.card{background:white;border-radius:18px;padding:18px;margin-bottom:16px;box-shadow:0 6px 20px rgba(0,0,0,.07);border:1px solid #FFE8D6}
+h2{margin:0 0 10px;font-size:19px;color:#EA580C}
+h3{color:#C2410C;margin:18px 0 8px}
+label{font-weight:700;font-size:14px;display:block;margin:12px 0 6px}
+input,select,textarea{width:100%;padding:12px;border:2px solid #FDBA74;border-radius:12px;font-size:15px;outline:none;background:#FFFBEB}
+.btn{background:#FF6B35;color:white;border:none;padding:13px;width:100%;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;margin-top:12px}
+.btn2{background:#1F2937}
+.btn3{background:#059669}
+.badge{display:inline-block;background:#FEF3C7;color:#92400E;padding:6px 10px;border-radius:20px;font-size:13px;font-weight:700;margin:3px}
+.topic-chip{background:#FFF1E6;border:1px solid #FFD6B3;padding:8px 10px;border-radius:20px;font-size:13px;cursor:pointer;display:inline-block;margin:4px}
+.topic-chip:hover{background:#FF6B35;color:white}
+.q{border:1px solid #FFE4CC;padding:14px;border-radius:14px;margin:10px 0;background:#FFFBEB}
+.mcq label{font-weight:400;display:block;margin:6px 0;background:white;padding:9px;border-radius:10px;border:1px solid #E5E7EB;cursor:pointer}
+.reminder{background:#FEF3C7;border:2px solid #F59E0B;padding:14px;border-radius:14px;margin-bottom:16px}
+.revision-box{background:#ECFDF5;border:2px solid #10B981;padding:14px;border-radius:14px}
+.flash{border:1px solid #A7F3D0;background:white;padding:16px;border-radius:12px;margin:10px 0;text-align:center}
+.flash button{margin-top:8px}
+.timer{font-size:26px;font-weight:900;text-align:center;color:#DC2626}
+.history-item{background:#FFFBEB;border:1px solid #FDE68A;padding:10px;border-radius:10px;margin:6px 0;display:flex;justify-content:space-between}
+</style>
+</head>
+<body>
+<header>
+<div class="topbar">
+<div><h1>✨ GOAL SPACE</h1><p>Tera Twin • Revision + Reminder + 10 Question</p></div>
+<div style="text-align:right;font-weight:800" id="streakTop">🔥 Streak: 0 | ⭐ 0</div>
+</div>
+</header>
+
+<div class="main">
+<!-- LEFT : DESKTOP LEFT PANEL -->
+<div>
+<div id="yesterdayBox"></div>
+
+<div class="card">
+<h2>🎯 Mera Goal</h2>
+<input id="goalInput" placeholder="Ex: Sem 1 me sab me A+">
+<button class="btn" onclick="saveGoal()">Goal Save Karo</button>
+<div id="goalShow"></div>
+</div>
+
+<div class="card">
+<h2>📚 Aaj Kya Padha?</h2>
+<label>Subject</label>
+<select id="subject" onchange="loadUnits()">
+<option value="">-- Subject --</option>
+<option value="CA-101">CA-101 - Discrete Maths</option>
+<option value="CA-102">CA-102 - Data Structures using C</option>
+<option value="CA-103">CA-103 - Computer System Architecture</option>
+<option value="CA-104">CA-104 - Python Programming</option>
+<option value="CA-105">CA-105 - Computer Network</option>
+<option value="CA-106">CA-106 - Indian Knowledge System</option>
+</select>
+<label>Unit (1,2,3,4)</label>
+<select id="unit" onchange="loadTopics()"><option value="">Pehle Subject Chuno</option></select>
+<label>Topics - Click karo:</label>
+<div id="topics"></div>
+<label>Ya Topic Likho:</label>
+<input id="topicInput" placeholder="Ex: Stack, Cache Memory, List, OSI Model">
+<button class="btn" onclick="generate()">Twin Se 10 Question Banao 🤖</button>
+<button class="btn btn3" onclick="startRevision()">📖 Is Topic Ko Revise Karo</button>
+</div>
+
+<div class="card">
+<div class="timer">⏱️ <span id="timer">05:00</span></div>
+<button class="btn btn2" onclick="startTimer()">5 Minute Timer Start</button>
+</div>
+
+<div class="card">
+<h2>📅 Mera History - Kya-Kya Padha</h2>
+<div id="history"></div>
+</div>
+</div>
+
+<!-- RIGHT : DESKTOP RIGHT PANEL -->
+<div>
+<div id="revisionArea"></div>
+<div id="output">
+<div class="card"><h2>👋 Twin Yaha Hai</h2><p>Left se Subject + Unit + Topic chuno. Twin yaha Right me 10 Question dega.</p><p><b>Revision ke liye:</b> Topic chuno aur <b>Revise Karo</b> dabao. Twin Flashcard dikhayega.</p></div>
+</div>
+
+<div class="card">
+<h2>🔥 Streak</h2>
+<div style="font-size:36px;text-align:center" id="streakBig">🔥 0</div>
+<p style="text-align:center">Aaj ka task complete karo to Streak +1</p>
+<button class="btn" onclick="completeDay()">✅ Aaj Ka Task Complete</button>
+<div id="completeMsg"></div>
+</div>
+</div>
+</div>
+
+<script>
+const SYLLABUS={
+"CA-101":{"Unit 1":["Logic","Propositions","Predicate Calculus","Proof Techniques","Mathematical Induction","Matrices","Eigen Values"],"Unit 2":["Graph Theory","Directed Graphs","Eulerian Graph","Trees","Binary Trees","Spanning Trees"],"Unit 3":["Algebraic Structures","Groups","Subgroups","Lagrange's Theorem","Normal Subgroup"],"Unit 4":["Lattices","Boolean Algebra","Normal Forms"]},
+"CA-102":{"Unit 1":["C Language","Data Types","Operators","Loop Control","Arrays","Functions","Recursion","Structures","Pointers","Dynamic Memory"],"Unit 2":["Stacks","Queue","Circular Queue","Linked List","Doubly Linked List","Circular Linked List"],"Unit 3":["Trees","Binary Search Trees","AVL Trees","Graph","DFS","BFS"],"Unit 4":["Binary Search","Sorting - Bubble Sort","Merge Sort","Quick Sort","Heap Sort","Hashing","Hash Functions"]},
+"CA-103":{"Unit 1":["Basic Function Units","Single Bus Structure","Logic Circuits","AND OR NOT Gates","K-Map","Binary Arithmetic","Floating Point"],"Unit 2":["Instruction Code","Instruction Set","Instruction Cycle","Addressing Modes","Data Path","ALU Design"],"Unit 3":["Memory Hierarchy","RAM","ROM","Cache Memory","Mapping Techniques","Virtual Memory","Associative Memory","Secondary Storage"],"Unit 4":["Programmed I/O","Memory Mapped I/O","Interrupt Driven I/O","DMA Data Transfer","Synchronous Transfer"]},
+"CA-104":{"Unit 1":["Python Basics","Strings","Control Flow","Loop - break continue pass","Console Input/Output"],"Unit 2":["Lists","Tuples","Sets","Dictionaries","Dictionary Comprehension"],"Unit 3":["Functions","Lambda Functions","Recursive Functions","Modules","Classes and Objects","Iterators","Generators"],"Unit 4":["Inheritance","Exception Handling","File Input/Output","File Opening Modes"]},
+"CA-105":{"Unit 1":["Networks","Topologies - Mesh Star Bus Ring","OSI Model","Transmission Media","Digital-to-Digital Conversion"],"Unit 2":["Multiplexing","Error Detection - CRC","Data Link Control","Ethernet","Switching"],"Unit 3":["ISDN","Frame Relay","Congestion Control","Leaky Bucket Algorithm"],"Unit 4":["Repeaters","Bridges","Routers","Gateways","FTP","HTTP","World Wide Web"]},
+"CA-106":{"Unit 1":["Indian Knowledge Systems","Vedic Texts","Dharma Karma Moksha"],"Unit 2":["Number Systems in India","Katapayadi System","Pingala and Binary System"],"Unit 3":["Linguistics","Ashtadhyayi","Phonetics","Sanskrit in NLP"],"Unit 4":["Knowledge Framework","Pramana","Samsaya","Siddhanta"]}
+};
+const DETAILS={
+"Stack":"Stack = LIFO - Last In First Out. Push = Add, Pop = Remove. Example: Plate ka dher.",
+"Cache Memory":"Cache CPU ke paas wali chhoti, sabse tez memory hai. Baar-baar wali cheez yahi rakhi jati hai.",
+"List":"List = Ordered, Changeable, Duplicate allowed. Ex: [1,2,3]",
+"OSI Model":"OSI me 7 Layers: Physical, Data Link, Network, Transport, Session, Presentation, Application.",
+"Linked List":"Node = Data + Next Address. Fixed size nahi hota.",
+"Loop":"Ek hi kaam baar-baar karne ke liye Loop. For Loop aur While Loop.",
+"Function":"Function = Ek kaam karne wala block. Baar-baar use kar sakte hai."
+};
+function loadUnits(){let s=document.getElementById('subject').value;let u=document.getElementById('unit');u.innerHTML='<option value="">-- Unit --</option>';if(!s)return;Object.keys(SYLLABUS[s]).forEach(k=>u.innerHTML+=`<option>${k}</option>`);document.getElementById('topics').innerHTML='';}
+function loadTopics(){let s=document.getElementById('subject').value;let u=document.getElementById('unit').value;let d=document.getElementById('topics');d.innerHTML='';if(!s||!u)return;SYLLABUS[s][u].forEach(t=>d.innerHTML+=`<span class="topic-chip" onclick="document.getElementById('topicInput').value='${t}'">${t}</span>`);}
+function saveGoal(){let g=document.getElementById('goalInput').value;if(!g)return alert('Goal likho');localStorage.setItem('goal',g);document.getElementById('goalShow').innerHTML=`<div style="background:#DCFCE7;padding:10px;border-radius:10px;margin-top:10px">🎯 <b>${g}</b></div>`;}
+function startTimer(){let sec=300;let el=document.getElementById('timer');clearInterval(window._t);window._t=setInterval(()=>{let m=Math.floor(sec/60),s=sec%60;el.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');if(sec<=0){clearInterval(window._t);alert('5 Minute ho gaye!');}sec--;},1000);}
+function getTopic(){return document.getElementById('topicInput').value.trim();}
+function saveHistory(subject,unit,topic){
+  let h=JSON.parse(localStorage.getItem('history')||'[]');
+  let today=new Date().toLocaleDateString('en-IN');
+  h.unshift({date:today,subject,unit,topic});
+  localStorage.setItem('history',JSON.stringify(h.slice(0,20)));
+  localStorage.setItem('lastTopic',topic); localStorage.setItem('lastDate',today); localStorage.setItem('lastSubject',subject+' '+unit);
+  renderHistory(); renderYesterday();
+}
+function renderHistory(){
+  let h=JSON.parse(localStorage.getItem('history')||'[]');
+  let div=document.getElementById('history');
+  if(!h.length){div.innerHTML='<p>Abhi kuch nahi padha. Aaj se shuru karo.</p>';return;}
+  div.innerHTML=h.map(x=>`<div class="history-item"><span><b>${x.topic}</b><br><small>${x.subject} ${x.unit} • ${x.date}</small></span><button onclick="quickRevise('${x.topic}')" style="background:#059669;color:white;border:none;padding:6px 10px;border-radius:8px;cursor:pointer">Revise</button></div>`).join('');
+}
+function renderYesterday(){
+  let last=localStorage.getItem('lastTopic'); let date=localStorage.getItem('lastDate'); let subj=localStorage.getItem('lastSubject');
+  let today=new Date().toLocaleDateString('en-IN');
+  let div=document.getElementById('yesterdayBox');
+  if(last && date!==today){
+    div.innerHTML=`<div class="reminder"><b>⏰ Twin Yaad Dila Raha Hai:</b><br>Kal tune <b>${last}</b> padha tha (${subj}).<br>Pehle isko 1 min revise kar le, fir naya topic shuru kar.<br><button class="btn btn3" onclick="quickRevise('${last}')">Kal Wala Revise Karo - ${last}</button></div>`;
+  } else if(last && date===today){
+    div.innerHTML=`<div class="reminder">✅ Aaj tune <b>${last}</b> padh liya hai. Good!</div>`;
+  } else {
+    div.innerHTML=`<div class="reminder">👋 Pehli baar aayi ho? Aaj ka pehla topic chuno, Twin yaad rakhega.</div>`;
+  }
+}
+function quickRevise(topic){document.getElementById('topicInput').value=topic; startRevision();}
+function startRevision(){
+  let t=getTopic(); if(!t) return alert('Pehle Topic chuno / likho!');
+  let s=document.getElementById('subject').value||'General'; let u=document.getElementById('unit').value||'';
+  let detail=DETAILS[t]||`${t} - ${s} ${u} ka important topic hai. Iski definition, 1 example aur 1 farak yaad karo.`;
+  document.getElementById('revisionArea').innerHTML=`
+  <div class="card revision-box"><h2>📖 Revision - ${t}</h2>
+  <p><b>Twin ka Short Notes:</b> ${detail}</p>
+  <div class="flash" id="flash1"><b>Flashcard 1: ${t} kya hai?</b><br><span id="ans1" style="display:none;color:#059669;font-weight:700">${detail}</span><br><button class="btn btn2" onclick="document.getElementById('ans1').style.display='block'">Answer Dekho 👀</button></div>
+  <div class="flash"><b>Flashcard 2: ${t} ka 1 Example kya hai?</b><br><span style="color:#6B7280">Khud bolo - fir neeche check karo</span><br><button class="btn" onclick="alert('Example: Apne words me bolo, fir teacher / notes se match karo. Galat bhi hoga to chalega, bolna important hai.')">Maine Bol Diya ✅</button></div>
+  <div class="flash"><b>Flashcard 3: Kal wale se kya farak hai?</b><br><span style="color:#6B7280">${t} ko kal wale topic se compare karke 1 line me bolo.</span></div>
+  <p>✅ 3 Flashcard ho gaye = Revision Done! Ab neeche 10 Question karo.</p>
+  </div>`;
+  document.getElementById('revisionArea').scrollIntoView({behavior:'smooth'});
+  saveHistory(s,u,t);
+}
+function generate(){
+  let s=document.getElementById('subject').value; let u=document.getElementById('unit').value; let t=getTopic();
+  if(!s||!u||!t) return alert('Subject + Unit + Topic chuno!');
+  let detail=DETAILS[t]||`${t} - ${s} ke ${u} ka important topic hai.`;
+  saveHistory(s,u,t);
+  document.getElementById('output').innerHTML=`
+  <div class="card"><h2>🤖 Twin - ${t}</h2><span class="badge">${s}</span><span class="badge">${u}</span><span class="badge">10 Question</span>
+  <p><b>Samajh:</b> ${detail}</p>
+  <h3>Part A - 5 MCQ</h3>
+  ${[1,2,3,4,5].map(i=>`<div class="q"><b>Q${i}. ${t} ke baare me kaunsa sahi hai?</b><div class="mcq"><label><input type="radio" name="q${i}"> A) ${t} ka use hi nahi hota</label><label><input type="radio" name="q${i}"> B) ${t} ka matlab upar wale samajh se match karta hai ✅</label><label><input type="radio" name="q${i}"> C) Sirf theory hai</label><label><input type="radio" name="q${i}"> D) Koi nahi</label></div></div>`).join('')}
+  <h3>Part B - 3 Example</h3>
+  <div class="q"><b>Q6.</b> ${t} ka 1 real-life example do.</div>
+  <div class="q"><b>Q7.</b> ${t} ko apne words me samjhao.</div>
+  <div class="q"><b>Q8.</b> ${t} aur usse milte topic me farak batao.</div>
+  <h3>Part C - 2 Code / Theory</h3>
+  <div class="q"><b>Q9.</b> ${t} pe 5 line ka code / definition likho.</div>
+  <div class="q"><b>Q10.</b> Exam me ${t} pe 5 marks ka answer kya likhogi? 3 point me.</div>
+  <textarea placeholder="Answers yaha likho..."></textarea>
+  <button class="btn" onclick="alert('Shabash! Save ho gaya.')">Answers Save Karo</button>
+  </div>`;
+  document.getElementById('output').scrollIntoView({behavior:'smooth'});
+}
+let streak=parseInt(localStorage.getItem('streak')||'0'); let points=parseInt(localStorage.getItem('points')||'0');
+function renderStreak(){document.getElementById('streakTop').innerText=`🔥 Streak: ${streak} din | ⭐ ${points}`;document.getElementById('streakBig').innerText=`🔥 ${streak}`;}
+function completeDay(){streak++;points+=10;localStorage.setItem('streak',streak);localStorage.setItem('points',points);renderStreak();document.getElementById('completeMsg').innerHTML=`<div style="background:#DCFCE7;padding:10px;border-radius:10px;margin-top:10px">🎉 Streak ${streak} ho gaya! Kal Twin fir yaad dilayega.</div>`;}
+renderStreak(); renderHistory(); renderYesterday();
+if(localStorage.getItem('goal')) document.getElementById('goalShow').innerHTML=`<div style="background:#DCFCE7;padding:10px;border-radius:10px;margin-top:10px">🎯 <b>${localStorage.getItem('goal')}</b></div>`;
+</script>
+</body>
+  </html>
